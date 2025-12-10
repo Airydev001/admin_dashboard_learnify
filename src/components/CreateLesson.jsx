@@ -112,6 +112,7 @@ const CreateLesson = () => {
             const res = await axios.post('https://backend-galaxy-9qdk.onrender.com/api/v1/ai/generate', {
                 topic: aiTopic,
                 ageGroup: aiAgeGroup,
+                count: questions.length
             });
 
             const { title, description, questions: aiQuestions } = res.data;
