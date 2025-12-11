@@ -5,6 +5,7 @@ const CreateLesson = () => {
     const [subjects, setSubjects] = useState([]);
     const [selectedSubject, setSelectedSubject] = useState('');
     const [title, setTitle] = useState('');
+    const [ageGroup, setAgeGroup] = useState('');
     const [description, setDescription] = useState('');
     const [questions, setQuestions] = useState([
         { text: '', options: ['', '', ''], correctAnswer: '', imageUrl: '' }
@@ -118,6 +119,7 @@ const CreateLesson = () => {
             const { title, description, questions: aiQuestions } = res.data;
             setTitle(title);
             setDescription(description);
+            setAgeGroup(aiAgeGroup); // Auto-fill age group from AI input
 
             const formattedQuestions = aiQuestions.map(q => ({
                 text: q.text,
@@ -145,10 +147,12 @@ const CreateLesson = () => {
                 title,
                 description,
                 questions,
+                ageGroup,
             });
             alert('Lesson created successfully!');
             setTitle('');
             setDescription('');
+            setAgeGroup('');
             setQuestions([{ text: '', options: ['', '', ''], correctAnswer: '', imageUrl: '' }]);
         } catch (error) {
             console.error('Error creating lesson:', error);
@@ -188,13 +192,16 @@ const CreateLesson = () => {
                             onChange={(e) => setAiTopic(e.target.value)}
                             className="px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 outline-none"
                         />
-                        <input
-                            type="text"
-                            placeholder="Age Group (e.g., 6-8)"
+                        <select
                             value={aiAgeGroup}
                             onChange={(e) => setAiAgeGroup(e.target.value)}
-                            className="px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 outline-none"
-                        />
+                            className="px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 outline-none bg-white"
+                        >
+                            <option value="">Select Age Group</option>
+                            <option value="3-5">3-5</option>
+                            <option value="6-8">6-8</option>
+                            <option value="9-12">9-12</option>
+                        </select>
                         <button
                             type="button"
                             onClick={generateWithAI}
@@ -247,6 +254,21 @@ const CreateLesson = () => {
                             required
                         />
                     </div>
+                </div>
+
+                <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Target Age Group</label>
+                    <select
+                        value={ageGroup}
+                        onChange={(e) => setAgeGroup(e.target.value)}
+                        className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 outline-none bg-white"
+                        required
+                    >
+                        <option value="">Select Age Group</option>
+                        <option value="3-5">3-5</option>
+                        <option value="6-8">6-8</option>
+                        <option value="9-12">9-12</option>
+                    </select>
                 </div>
 
                 <div>
